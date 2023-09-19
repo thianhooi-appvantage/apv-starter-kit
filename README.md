@@ -1,5 +1,7 @@
 # Starter-Kit
 
+Hello world!
+
 The goal of this project is to provide a strong and efficient starter to quickly start developments on new projects. It
 is developed and maintained by [Appvantage][apv] and follows the practices we believe in. We welcome all feedback and
 contributions.
