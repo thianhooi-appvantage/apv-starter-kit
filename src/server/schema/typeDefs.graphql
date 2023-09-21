@@ -46,6 +46,8 @@ type AuthenticatorSetup {
 }
 
 type Book {
+  """Author"""
+  author: User!
   """Author ID"""
   authorId: ObjectID!
   """The description of the book"""

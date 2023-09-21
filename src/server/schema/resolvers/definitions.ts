@@ -69,6 +69,8 @@ export type GraphQLAuthenticatorSetup = {
 };
 
 export type GraphQLBook = {
+  /** Author */
+  author: GraphQLUser;
   /** Author ID */
   authorId: Scalars['ObjectID'];
   /** The description of the book */
@@ -557,6 +559,7 @@ export type GraphQLAuthenticatorSetupResolvers<ContextType = Context, ParentType
 };
 
 export type GraphQLBookResolvers<ContextType = Context, ParentType extends GraphQLResolversParentTypes['Book'] = GraphQLResolversParentTypes['Book']> = {
+  author?: Resolver<GraphQLResolversTypes['User'], ParentType, ContextType>;
   authorId?: Resolver<GraphQLResolversTypes['ObjectID'], ParentType, ContextType>;
   description?: Resolver<Maybe<GraphQLResolversTypes['String']>, ParentType, ContextType>;
   id?: Resolver<GraphQLResolversTypes['ObjectID'], ParentType, ContextType>;
