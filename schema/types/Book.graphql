@@ -1,0 +1,31 @@
+type Book {
+    """
+    Book ID
+    """
+    id: ObjectID!
+
+    """
+    The title of the book
+    """
+    title: String!
+
+    """
+    The description of the book
+    """
+    description: String
+
+    """
+    Pages count
+    """
+    pages: Int
+
+    """
+    Book language
+    """
+    language: String
+
+    """
+    Author ID
+    """
+    authorId: ObjectID!
+}

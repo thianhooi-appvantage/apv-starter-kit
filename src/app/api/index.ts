@@ -64,6 +64,22 @@ export type AuthenticatorSetup = {
   secret: Scalars['String'];
 };
 
+export type Book = {
+  __typename?: 'Book';
+  /** Author ID */
+  authorId: Scalars['ObjectID'];
+  /** The description of the book */
+  description?: Maybe<Scalars['String']>;
+  /** Book ID */
+  id: Scalars['ObjectID'];
+  /** Book language */
+  language?: Maybe<Scalars['String']>;
+  /** Pages count */
+  pages?: Maybe<Scalars['Int']>;
+  /** The title of the book */
+  title: Scalars['String'];
+};
+
 export type ExternalLink = ResetPasswordLink;
 
 export type MessageNotice = {
@@ -195,6 +211,12 @@ export type MutationUpdateDisplayNameArgs = {
   displayName: Scalars['String'];
 };
 
+export type PaginatedBooks = {
+  __typename?: 'PaginatedBooks';
+  count: Scalars['Int'];
+  items: Array<Book>;
+};
+
 export type PaginatedUsers = {
   __typename?: 'PaginatedUsers';
   /** Number of user matching the original query */
@@ -218,6 +240,8 @@ export type Query = {
   generateAuthenticatorChallenge?: Maybe<AuthenticationWithWebPublicKeyCredential>;
   /** Generate authenticator secret and qrcode */
   generateAuthenticatorSetup: AuthenticatorSetup;
+  /** get a book by id */
+  getBookById?: Maybe<Book>;
   /** Fetch WebAuthn security keys for a username */
   getWebauthnKeys: Array<Scalars['String']>;
   /** List users */
@@ -229,6 +253,11 @@ export type Query = {
 
 export type QueryGenerateAuthenticatorChallengeArgs = {
   username: Scalars['String'];
+};
+
+
+export type QueryGetBookByIdArgs = {
+  id: Scalars['ObjectID'];
 };
 
 

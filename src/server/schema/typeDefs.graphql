@@ -45,6 +45,21 @@ type AuthenticatorSetup {
   secret: String!
 }
 
+type Book {
+  """Author ID"""
+  authorId: ObjectID!
+  """The description of the book"""
+  description: String
+  """Book ID"""
+  id: ObjectID!
+  """Book language"""
+  language: String
+  """Pages count"""
+  pages: Int
+  """The title of the book"""
+  title: String!
+}
+
 scalar DateTime
 
 union ExternalLink = ResetPasswordLink
@@ -105,6 +120,11 @@ type Mutation {
 
 scalar ObjectID
 
+type PaginatedBooks {
+  count: Int!
+  items: [Book!]!
+}
+
 type PaginatedUsers {
   """Number of user matching the original query"""
   count: Int!
@@ -128,6 +148,8 @@ type Query {
   generateAuthenticatorChallenge(username: String!): AuthenticationWithWebPublicKeyCredential
   """Generate authenticator secret and qrcode"""
   generateAuthenticatorSetup: AuthenticatorSetup!
+  """get a book by id"""
+  getBookById(id: ObjectID!): Book
   """Fetch WebAuthn security keys for a username"""
   getWebauthnKeys(username: String!): [String!]!
   """List users"""

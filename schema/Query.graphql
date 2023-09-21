@@ -28,4 +28,9 @@ type Query {
     Generate challenge to authenticate with WebAuthn
     """
     generateAuthenticatorChallenge(username: String!): AuthenticationWithWebPublicKeyCredential
+
+    """
+    get a book by id
+    """
+    getBookById(id: ObjectID!): Book
 }
