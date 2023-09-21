@@ -8,6 +8,7 @@ export type Collections = {
     userWebCredentials: Collection<documents.UserWebCredential>;
     externalLinks: Collection<documents.ExternalLink>;
     settings: Collection<documents.Setting>;
+    books: Collection<documents.Book>;
 };
 
 export const getCollections = ({
@@ -19,4 +20,5 @@ export const getCollections = ({
     userWebCredentials: regular.db.collection<documents.UserWebCredential>('userWebCredentials'),
     settings: encrypted.db.collection<documents.Setting>('settings'),
     externalLinks: regular.db.collection<documents.ExternalLink>('externalLinks'),
+    books: regular.db.collection<documents.Book>('books'),
 });
