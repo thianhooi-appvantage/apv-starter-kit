@@ -20,7 +20,6 @@ const BookList = () => {
         },
     });
 
-    // prepare items as a data source
     const dataSource = useMemo(() => (data?.list?.items || []).map(item => ({ ...item, key: item.id })), [data]);
     const total = data?.list?.count || 0;
 
@@ -40,7 +39,7 @@ const BookList = () => {
             total={total}
         >
             <Table.Column key="title" dataIndex="title" title={t('bookList:columns.title')} />
-            <Table.Column key="language" dataIndex="language" title={t('bookList:columns.title')} />
+            <Table.Column key="language" dataIndex="language" title={t('bookList:columns.language')} />
             <Table.Column key="pages" dataIndex="pages" title={t('bookList:columns.pageCount')} />
             <Table.Column key="author" dataIndex={['author', 'displayName']} title={t('bookList:columns.author')} />
             <Table.Column<Book>

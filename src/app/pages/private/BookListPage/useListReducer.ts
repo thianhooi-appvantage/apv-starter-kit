@@ -13,7 +13,6 @@ const reducer = (state: State, action: Action): State => {
 
 const useListReducer = () =>
     useReducer(reducer, {
-        // default pagination
         page: 1,
         pageSize: 10,
     });
