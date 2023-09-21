@@ -1,0 +1,15 @@
+query getBookById($id: ObjectID!) {
+    getBookById(id: $id) {
+        ...BookData
+    }
+}
+
+
+query listBooks($pagination: Pagination!, $filter: BookFilteringRule) {
+    list: listBooks(pagination: $pagination, filter: $filter) {
+        count
+        items {
+            ...BookData
+        }
+    }
+}

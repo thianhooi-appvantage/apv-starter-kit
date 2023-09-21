@@ -1,0 +1,11 @@
+fragment BookData on Book {
+    authorId
+    description
+    id
+    language
+    pages
+    title
+    author {
+        ...UserFullData
+    }
+}
