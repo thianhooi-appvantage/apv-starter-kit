@@ -60,6 +60,15 @@ type Book {
   title: String!
 }
 
+input BookFilteringRule {
+  """Filter by book author"""
+  author: String
+  """Filter by book language"""
+  language: String
+  """Filter by book title"""
+  title: String
+}
+
 scalar DateTime
 
 union ExternalLink = ResetPasswordLink
@@ -152,6 +161,8 @@ type Query {
   getBookById(id: ObjectID!): Book
   """Fetch WebAuthn security keys for a username"""
   getWebauthnKeys(username: String!): [String!]!
+  """list books"""
+  listBooks(filter: BookFilteringRule, pagination: Pagination!): PaginatedBooks!
   """List users"""
   listUsers(filter: UserFilteringRule, pagination: Pagination!, sort: UserSortingRule): PaginatedUsers!
   """Retrieve a link information"""

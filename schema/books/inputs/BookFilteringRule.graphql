@@ -1,0 +1,16 @@
+input BookFilteringRule {
+    """
+    Filter by book title
+    """
+    title: String
+
+    """
+    Filter by book language
+    """
+    language: String
+
+    """
+    Filter by book author
+    """
+    author: String
+}

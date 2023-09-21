@@ -80,6 +80,15 @@ export type Book = {
   title: Scalars['String'];
 };
 
+export type BookFilteringRule = {
+  /** Filter by book author */
+  author?: InputMaybe<Scalars['String']>;
+  /** Filter by book language */
+  language?: InputMaybe<Scalars['String']>;
+  /** Filter by book title */
+  title?: InputMaybe<Scalars['String']>;
+};
+
 export type ExternalLink = ResetPasswordLink;
 
 export type MessageNotice = {
@@ -244,6 +253,8 @@ export type Query = {
   getBookById?: Maybe<Book>;
   /** Fetch WebAuthn security keys for a username */
   getWebauthnKeys: Array<Scalars['String']>;
+  /** list books */
+  listBooks: PaginatedBooks;
   /** List users */
   listUsers: PaginatedUsers;
   /** Retrieve a link information */
@@ -263,6 +274,12 @@ export type QueryGetBookByIdArgs = {
 
 export type QueryGetWebauthnKeysArgs = {
   username: Scalars['String'];
+};
+
+
+export type QueryListBooksArgs = {
+  filter?: InputMaybe<BookFilteringRule>;
+  pagination: Pagination;
 };
 
 
