@@ -1,0 +1,16 @@
+{
+    "title": "Books",
+    "subTitle": "List of books",
+    "columns": {
+        "title": "Title",
+        "language": "Language",
+        "pageCount": "Page Count",
+        "author": "Author",
+        "actions": "Actions"
+    },
+    "actions": {
+        "newUser": "New user",
+        "view": "View",
+        "update": "Update"
+    }
+}
