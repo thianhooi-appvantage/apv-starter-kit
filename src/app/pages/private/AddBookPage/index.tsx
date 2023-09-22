@@ -8,28 +8,28 @@ import ConsolePageWithHeader from '../../../layouts/ConsoleLayout/ConsolePageWit
 import useHandleError from '../../../utilities/useHandleError';
 import CreateBookForm, { defaultValues } from '../BookDetailsPage/BookForm/CreateBookForm';
 
+const validate = (values: BookCreateInput) => {
+    const errors: Partial<Record<keyof BookCreateInput, string>> = {};
+
+    Object.keys(values).forEach(key => {
+        if (!values[key]) {
+            errors[key] = 'Required';
+        }
+    });
+
+    if (values.pages < 1) {
+        errors.pages = 'Invalid page count';
+    }
+
+    return errors;
+};
+
 const AddBookPage = () => {
     const { t } = useTranslation(['bookDetails']);
     const navigate = useNavigate();
     const [isLoading, setIsLoading] = useState(false);
 
     const [createBookMutation] = useCreateBookMutation();
-
-    const validate = (values: BookCreateInput) => {
-        const errors: Partial<Record<keyof BookCreateInput, string>> = {};
-
-        Object.keys(values).forEach(key => {
-            if (!values[key]) {
-                errors[key] = 'Required';
-            }
-        });
-
-        if (values.pages < 1) {
-            errors.pages = 'Invalid page count';
-        }
-
-        return errors;
-    };
 
     const onSubmit = useHandleError<BookCreateInput>(
         async values => {
