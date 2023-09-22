@@ -91,6 +91,17 @@ export type BookFilteringRule = {
   title?: InputMaybe<Scalars['String']>;
 };
 
+export type BookUpdateInput = {
+  /** Description */
+  description?: InputMaybe<Scalars['String']>;
+  /** Language */
+  language?: InputMaybe<Scalars['String']>;
+  /** Page count */
+  pages?: InputMaybe<Scalars['Int']>;
+  /** Book title */
+  title?: InputMaybe<Scalars['String']>;
+};
+
 export type ExternalLink = ResetPasswordLink;
 
 export type MessageNotice = {
@@ -139,6 +150,8 @@ export type Mutation = {
    * Return the key ID revoked
    */
   revokeWebPublicKeyCredential?: Maybe<Scalars['String']>;
+  /** Update book */
+  updateBook: Book;
   /**
    * Update the display name for the logged in user
    *
@@ -214,6 +227,12 @@ export type MutationRevokeUserSessionArgs = {
 
 
 export type MutationRevokeWebPublicKeyCredentialArgs = {
+  id: Scalars['ObjectID'];
+};
+
+
+export type MutationUpdateBookArgs = {
+  data: BookUpdateInput;
   id: Scalars['ObjectID'];
 };
 
@@ -417,6 +436,14 @@ export type ListBooksQueryVariables = Exact<{
 
 
 export type ListBooksQuery = { __typename?: 'Query', list: { __typename?: 'PaginatedBooks', count: number, items: Array<{ __typename?: 'Book', authorId: string, description?: string | null, id: string, language?: string | null, pages?: number | null, title: string, author: { __typename?: 'User', id: string, username: string, displayName: string, isAuthenticatorEnabled: boolean, isPasswordExpired: boolean } }> } };
+
+export type UpdateBookMutationVariables = Exact<{
+  data: BookUpdateInput;
+  id: Scalars['ObjectID'];
+}>;
+
+
+export type UpdateBookMutation = { __typename?: 'Mutation', updateBook: { __typename?: 'Book', authorId: string, description?: string | null, id: string, language?: string | null, pages?: number | null, title: string, author: { __typename?: 'User', id: string, username: string, displayName: string, isAuthenticatorEnabled: boolean, isPasswordExpired: boolean } } };
 
 export type RetrieveLinkQueryVariables = Exact<{
   id: Scalars['String'];
@@ -637,6 +664,34 @@ export function useListBooksLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<
 export type ListBooksQueryHookResult = ReturnType<typeof useListBooksQuery>;
 export type ListBooksLazyQueryHookResult = ReturnType<typeof useListBooksLazyQuery>;
 export type ListBooksQueryResult = Apollo.QueryResult<ListBooksQuery, ListBooksQueryVariables>;
+export const UpdateBookDocument = /*#__PURE__*/ {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"updateBook"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"data"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"BookUpdateInput"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ObjectID"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"updateBook"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"data"},"value":{"kind":"Variable","name":{"kind":"Name","value":"data"}}},{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"BookData"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"BookData"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Book"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"authorId"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"language"}},{"kind":"Field","name":{"kind":"Name","value":"pages"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"author"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"UserFullData"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"UserFullData"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"User"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"username"}},{"kind":"Field","name":{"kind":"Name","value":"displayName"}},{"kind":"Field","name":{"kind":"Name","value":"isAuthenticatorEnabled"}},{"kind":"Field","name":{"kind":"Name","value":"isPasswordExpired"}}]}}]} as unknown as DocumentNode;
+export type UpdateBookMutationFn = Apollo.MutationFunction<UpdateBookMutation, UpdateBookMutationVariables>;
+
+/**
+ * __useUpdateBookMutation__
+ *
+ * To run a mutation, you first call `useUpdateBookMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateBookMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateBookMutation, { data, loading, error }] = useUpdateBookMutation({
+ *   variables: {
+ *      data: // value for 'data'
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useUpdateBookMutation(baseOptions?: Apollo.MutationHookOptions<UpdateBookMutation, UpdateBookMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UpdateBookMutation, UpdateBookMutationVariables>(UpdateBookDocument, options);
+      }
+export type UpdateBookMutationHookResult = ReturnType<typeof useUpdateBookMutation>;
+export type UpdateBookMutationResult = Apollo.MutationResult<UpdateBookMutation>;
+export type UpdateBookMutationOptions = Apollo.BaseMutationOptions<UpdateBookMutation, UpdateBookMutationVariables>;
 export const RetrieveLinkDocument = /*#__PURE__*/ {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"retrieveLink"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"retrieveLink"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"__typename"}},{"kind":"InlineFragment","typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"ResetPasswordLink"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"token"}}]}}]}}]}}]} as unknown as DocumentNode;
 
 /**

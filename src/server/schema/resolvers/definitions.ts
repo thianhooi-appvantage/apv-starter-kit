@@ -94,6 +94,17 @@ export type GraphQLBookFilteringRule = {
   title?: InputMaybe<Scalars['String']>;
 };
 
+export type GraphQLBookUpdateInput = {
+  /** Description */
+  description?: InputMaybe<Scalars['String']>;
+  /** Language */
+  language?: InputMaybe<Scalars['String']>;
+  /** Page count */
+  pages?: InputMaybe<Scalars['Int']>;
+  /** Book title */
+  title?: InputMaybe<Scalars['String']>;
+};
+
 export type GraphQLExternalLink = GraphQLResetPasswordLink;
 
 export type GraphQLMessageNotice = {
@@ -140,6 +151,8 @@ export type GraphQLMutation = {
    * Return the key ID revoked
    */
   revokeWebPublicKeyCredential?: Maybe<Scalars['String']>;
+  /** Update book */
+  updateBook: GraphQLBook;
   /**
    * Update the display name for the logged in user
    *
@@ -215,6 +228,12 @@ export type GraphQLMutationRevokeUserSessionArgs = {
 
 
 export type GraphQLMutationRevokeWebPublicKeyCredentialArgs = {
+  id: Scalars['ObjectID'];
+};
+
+
+export type GraphQLMutationUpdateBookArgs = {
+  data: GraphQLBookUpdateInput;
   id: Scalars['ObjectID'];
 };
 
@@ -459,6 +478,7 @@ export type GraphQLResolversTypes = {
   AuthenticatorSetup: ResolverTypeWrapper<GraphQLAuthenticatorSetup>;
   Book: ResolverTypeWrapper<Book>;
   BookFilteringRule: GraphQLBookFilteringRule;
+  BookUpdateInput: GraphQLBookUpdateInput;
   Boolean: ResolverTypeWrapper<Scalars['Boolean']>;
   DateTime: ResolverTypeWrapper<Scalars['DateTime']>;
   ExternalLink: ResolverTypeWrapper<ExternalLink>;
@@ -497,6 +517,7 @@ export type GraphQLResolversParentTypes = {
   AuthenticatorSetup: GraphQLAuthenticatorSetup;
   Book: Book;
   BookFilteringRule: GraphQLBookFilteringRule;
+  BookUpdateInput: GraphQLBookUpdateInput;
   Boolean: Scalars['Boolean'];
   DateTime: Scalars['DateTime'];
   ExternalLink: ExternalLink;
@@ -603,6 +624,7 @@ export type GraphQLMutationResolvers<ContextType = Context, ParentType extends G
   requestWebPublicKeyCredentialRegistration?: Resolver<GraphQLResolversTypes['WebPublicKeyCredentialRegistrationRequest'], ParentType, ContextType>;
   revokeUserSession?: Resolver<GraphQLResolversTypes['Boolean'], ParentType, ContextType, RequireFields<GraphQLMutationRevokeUserSessionArgs, 'id'>>;
   revokeWebPublicKeyCredential?: Resolver<Maybe<GraphQLResolversTypes['String']>, ParentType, ContextType, RequireFields<GraphQLMutationRevokeWebPublicKeyCredentialArgs, 'id'>>;
+  updateBook?: Resolver<GraphQLResolversTypes['Book'], ParentType, ContextType, RequireFields<GraphQLMutationUpdateBookArgs, 'data' | 'id'>>;
   updateDisplayName?: Resolver<GraphQLResolversTypes['User'], ParentType, ContextType, RequireFields<GraphQLMutationUpdateDisplayNameArgs, 'displayName'>>;
 };
 

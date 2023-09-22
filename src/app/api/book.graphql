@@ -4,12 +4,17 @@ query getBookById($id: ObjectID!) {
     }
 }
 
-
 query listBooks($pagination: Pagination!, $filter: BookFilteringRule) {
     list: listBooks(pagination: $pagination, filter: $filter) {
         count
         items {
             ...BookData
         }
+    }
+}
+
+mutation updateBook($data: BookUpdateInput!, $id: ObjectID!) {
+    updateBook(data: $data, id: $id) {
+        ...BookData
     }
 }

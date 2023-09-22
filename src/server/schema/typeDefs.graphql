@@ -71,6 +71,17 @@ input BookFilteringRule {
   title: String
 }
 
+input BookUpdateInput {
+  """Description"""
+  description: String
+  """Language"""
+  language: String
+  """Page count"""
+  pages: Int
+  """Book title"""
+  title: String
+}
+
 scalar DateTime
 
 union ExternalLink = ResetPasswordLink
@@ -121,6 +132,8 @@ type Mutation {
   Return the key ID revoked
   """
   revokeWebPublicKeyCredential(id: ObjectID!): String
+  """Update book"""
+  updateBook(data: BookUpdateInput!, id: ObjectID!): Book!
   """
   Update the display name for the logged in user
   

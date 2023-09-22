@@ -84,4 +84,9 @@ type Mutation {
     Revoke user session
     """
     revokeUserSession(id: ObjectID!, displayNotice: Boolean): Boolean!
+
+    """
+    Update book
+    """
+    updateBook(id: ObjectID!, data: BookUpdateInput!): Book!
 }

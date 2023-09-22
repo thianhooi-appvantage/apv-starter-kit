@@ -1,10 +1,42 @@
 {
     "title": "Book details",
+    "cardTitles": {
+        "configuration": "Configuration"
+    },
     "content": {
         "title": "Title",
         "author": "Author",
         "description": "Description",
         "language": "Language",
         "pageCount": "Page count"
+    },
+    "fields": {
+        "title": {
+            "placeholder": "Enter title",
+            "label": "Title"
+        },
+        "author": {
+            "placeholder": "Enter author",
+            "label": "Author"
+        },
+        "description": {
+            "placeholder": "Enter description",
+            "label": "Description"
+        },
+        "language": {
+            "placeholder": "Enter language",
+            "label": "Language"
+        },
+        "pageCount": {
+            "placeholder": "Enter page count",
+            "label": "Page count"
+        }
+    },
+    "actions": {
+        "update": "Update"
+    },
+    "messages": {
+        "updateSubmitting": "Updating book..",
+        "updateSuccessful": "Book updated"
     }
 }
