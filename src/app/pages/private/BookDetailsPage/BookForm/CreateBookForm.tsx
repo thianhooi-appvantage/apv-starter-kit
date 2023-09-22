@@ -66,6 +66,7 @@ const CreateBookForm = ({ disabled = false }: BookDetailFormProps) => {
                         {...t('bookDetails:fields.author', { returnObjects: true })}
                         name="authorId"
                         options={authorOptions}
+                        required
                     />
                 </Col>
 

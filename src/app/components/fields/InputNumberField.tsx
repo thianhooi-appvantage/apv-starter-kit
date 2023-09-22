@@ -45,11 +45,8 @@ const InputNumberField = ({ name, required, label, itemProps, tooltip, ...props 
         <FormItem {...itemProps} label={label} meta={meta} required={required} tooltip={tooltip}>
             <InputNumber
                 autoComplete="off"
-                // jjspread props
                 {...props}
-                // then spread the field properties itself
                 {...field}
-                // manually attach on change
                 controls={false}
                 onChange={value => setValue(value)}
             />
