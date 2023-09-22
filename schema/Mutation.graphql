@@ -89,4 +89,9 @@ type Mutation {
     Update book
     """
     updateBook(id: ObjectID!, data: BookUpdateInput!): Book!
+
+    """
+    Delete book
+    """
+    deleteBook(id: ObjectID!): Book!
 }

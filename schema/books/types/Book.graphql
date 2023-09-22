@@ -33,4 +33,9 @@ type Book {
     Author
     """
     author: User!
+
+    """
+    isDeleted
+    """
+    isDeleted: Boolean!
 }

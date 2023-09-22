@@ -1,7 +1,8 @@
+import { ReturnDocument } from 'mongodb';
 import { getDatabaseContext } from '../../../../database';
 import { GraphQLMutationResolvers } from '../../definitions';
 
-const mutation: GraphQLMutationResolvers['updateBook'] = async (root, { id, data }) => {
+const mutation: GraphQLMutationResolvers['deleteBook'] = async (root, { id }) => {
     const { collections } = await getDatabaseContext();
 
     const book = await collections.books.findOne({ _id: id, isDeleted: false });
@@ -10,7 +11,11 @@ const mutation: GraphQLMutationResolvers['updateBook'] = async (root, { id, data
         throw new Error('Book not found');
     }
 
-    const update = await collections.books.findOneAndUpdate({ _id: id }, { $set: data }, { returnDocument: 'after' });
+    const update = await collections.books.findOneAndUpdate(
+        { _id: id, isDeleted: false },
+        { $set: { isDeleted: true } },
+        { returnDocument: ReturnDocument.AFTER }
+    );
 
     return update.value;
 };

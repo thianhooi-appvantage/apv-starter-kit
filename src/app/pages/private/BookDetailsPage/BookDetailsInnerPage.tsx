@@ -1,10 +1,11 @@
-import { Button, message } from 'antd';
+import { ExclamationCircleOutlined } from '@ant-design/icons';
+import { Button, Modal, message } from 'antd';
 import { Form, Formik } from 'formik';
 import { pick } from 'lodash/fp';
-import React, { useMemo } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router';
-import { BookDataFragment, BookUpdateInput, useUpdateBookMutation } from '../../../api';
+import { BookDataFragment, BookUpdateInput, useDeleteBookMutation, useUpdateBookMutation } from '../../../api';
 import ConsolePageWithHeader from '../../../layouts/ConsoleLayout/ConsolePageWithHeader';
 import useHandleError from '../../../utilities/useHandleError';
 import { BookFormValues } from './BookForm';
@@ -20,6 +21,7 @@ const BookDetailsInnerPage = ({ book, disabled = false }: BookDetailsInnerPagePr
     const navigate = useNavigate();
 
     const [updateBookMutation] = useUpdateBookMutation();
+    const [deleteBookMutation] = useDeleteBookMutation();
 
     const initialValues = useMemo(
         (): BookUpdateInput => pick(['title', 'description', 'language', 'pages'], book),
@@ -69,9 +71,45 @@ const BookDetailsInnerPage = ({ book, disabled = false }: BookDetailsInnerPagePr
         [book.id, navigate, t, updateBookMutation]
     );
 
+    const deleteBook = useCallback(async () => {
+        Modal.confirm({
+            title: t('bookDetails:deleteModal.title'),
+            icon: <ExclamationCircleOutlined />,
+            content: t('bookDetails:deleteModal.content'),
+            okText: t('bookDetails:deleteModal.okText'),
+            okType: 'danger',
+            cancelText: t('bookDetails:deleteModal.cancelText'),
+            async onOk() {
+                message.loading({
+                    content: t('bookDetails:messages.deleteSubmitting'),
+                    key: 'primary',
+                    duration: 0,
+                });
+
+                await deleteBookMutation({
+                    variables: {
+                        id: book.id,
+                    },
+                }).finally(() => {
+                    message.destroy('primary');
+                });
+
+                message.success({
+                    content: t('bookDetails:messages.deleteSuccessful'),
+                    key: 'primary',
+                });
+
+                navigate('/private/system/books');
+            },
+        });
+    }, [book.id, deleteBookMutation, navigate, t]);
+
     return (
         <ConsolePageWithHeader
             footer={[
+                <Button key="delete" htmlType="button" onClick={deleteBook} danger>
+                    {t('bookDetails:actions.delete')}
+                </Button>,
                 <Button key="submit" form="bookForm" htmlType="submit" type="primary">
                     {t('bookDetails:actions.update')}
                 </Button>,

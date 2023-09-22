@@ -33,10 +33,19 @@
         }
     },
     "actions": {
-        "update": "Update"
+        "update": "Update",
+        "delete": "Delete"
     },
     "messages": {
         "updateSubmitting": "Updating book..",
-        "updateSuccessful": "Book updated"
+        "updateSuccessful": "Book updated",
+        "deleteSubmitting": "Requesting book deletion..",
+        "deleteSuccessful": "Book deleted"
+    },
+    "deleteModal": {
+        "title": "Deletion",
+        "content": "Do you confirm the deletion for this book? This action cannot be reverted.",
+        "okText": "Confirm & Delete",
+        "cancelText": "Cancel"
     }
 }

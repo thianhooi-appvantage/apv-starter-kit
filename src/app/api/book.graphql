@@ -18,3 +18,9 @@ mutation updateBook($data: BookUpdateInput!, $id: ObjectID!) {
         ...BookData
     }
 }
+
+mutation deleteBook($id: ObjectID!) {
+    deleteBook(id: $id) {
+        ...BookData
+    }
+}

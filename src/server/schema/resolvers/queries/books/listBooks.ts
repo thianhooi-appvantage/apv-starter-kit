@@ -4,13 +4,13 @@ import { paginateAggregation } from '../../../../utils/pagination';
 import { GraphQLBookFilteringRule, GraphQLQueryResolvers, Maybe } from '../../definitions';
 
 const getFilter = (rule?: Maybe<GraphQLBookFilteringRule>): Filter<Book> => {
-    const rootFilter: Filter<Book> = {};
+    const rootFilter: Filter<Book> = { isDeleted: false };
 
     if (!rule) {
         return rootFilter;
     }
 
-    const filters: Filter<Book>[] = [];
+    const filters: Filter<Book>[] = [rootFilter];
 
     if (rule.title) {
         rootFilter.title = new RegExp(rule.title, 'i');

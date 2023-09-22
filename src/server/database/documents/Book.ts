@@ -7,4 +7,5 @@ export type Book = {
     pages: number;
     language: string;
     authorId: ObjectId;
+    isDeleted: boolean;
 };

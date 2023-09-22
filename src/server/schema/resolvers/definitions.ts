@@ -77,6 +77,8 @@ export type GraphQLBook = {
   description?: Maybe<Scalars['String']>;
   /** Book ID */
   id: Scalars['ObjectID'];
+  /** isDeleted */
+  isDeleted: Scalars['Boolean'];
   /** Book language */
   language?: Maybe<Scalars['String']>;
   /** Pages count */
@@ -129,6 +131,8 @@ export type GraphQLMutation = {
   completeWebPublicKeyCredentialRegistration: Scalars['Boolean'];
   /** Create a new account/user */
   createAccount: GraphQLUser;
+  /** Delete book */
+  deleteBook: GraphQLBook;
   /** Disable 2FA / Authenticator for the signed user */
   disableAuthenticator: GraphQLUser;
   /** Enable 2FA / Authenticator for the signed user */
@@ -207,6 +211,11 @@ export type GraphQLMutationCreateAccountArgs = {
   email: Scalars['String'];
   password: Scalars['String'];
   username: Scalars['String'];
+};
+
+
+export type GraphQLMutationDeleteBookArgs = {
+  id: Scalars['ObjectID'];
 };
 
 
@@ -584,6 +593,7 @@ export type GraphQLBookResolvers<ContextType = Context, ParentType extends Graph
   authorId?: Resolver<GraphQLResolversTypes['ObjectID'], ParentType, ContextType>;
   description?: Resolver<Maybe<GraphQLResolversTypes['String']>, ParentType, ContextType>;
   id?: Resolver<GraphQLResolversTypes['ObjectID'], ParentType, ContextType>;
+  isDeleted?: Resolver<GraphQLResolversTypes['Boolean'], ParentType, ContextType>;
   language?: Resolver<Maybe<GraphQLResolversTypes['String']>, ParentType, ContextType>;
   pages?: Resolver<Maybe<GraphQLResolversTypes['Int']>, ParentType, ContextType>;
   title?: Resolver<GraphQLResolversTypes['String'], ParentType, ContextType>;
@@ -617,6 +627,7 @@ export type GraphQLMutationResolvers<ContextType = Context, ParentType extends G
   changePasswordFromToken?: Resolver<GraphQLResolversTypes['Boolean'], ParentType, ContextType, RequireFields<GraphQLMutationChangePasswordFromTokenArgs, 'token'>>;
   completeWebPublicKeyCredentialRegistration?: Resolver<GraphQLResolversTypes['Boolean'], ParentType, ContextType, RequireFields<GraphQLMutationCompleteWebPublicKeyCredentialRegistrationArgs, 'response' | 'token'>>;
   createAccount?: Resolver<GraphQLResolversTypes['User'], ParentType, ContextType, RequireFields<GraphQLMutationCreateAccountArgs, 'email' | 'password' | 'username'>>;
+  deleteBook?: Resolver<GraphQLResolversTypes['Book'], ParentType, ContextType, RequireFields<GraphQLMutationDeleteBookArgs, 'id'>>;
   disableAuthenticator?: Resolver<GraphQLResolversTypes['User'], ParentType, ContextType>;
   enableAuthenticator?: Resolver<GraphQLResolversTypes['User'], ParentType, ContextType, RequireFields<GraphQLMutationEnableAuthenticatorArgs, 'secret' | 'token'>>;
   generateWebCredentialAuthentication?: Resolver<Maybe<GraphQLResolversTypes['AuthenticationWithWebPublicKeyCredential']>, ParentType, ContextType, RequireFields<GraphQLMutationGenerateWebCredentialAuthenticationArgs, 'username'>>;

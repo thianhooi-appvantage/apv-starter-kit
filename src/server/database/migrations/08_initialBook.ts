@@ -8,6 +8,7 @@ type Book = {
     pages: number;
     language: string;
     authorId: ObjectId;
+    isDeleted: boolean;
 };
 
 export default {
@@ -21,6 +22,7 @@ export default {
             pages: 100,
             language: 'English',
             authorId: new ObjectId(),
+            isDeleted: false,
         });
     },
 };

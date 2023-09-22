@@ -5,6 +5,7 @@ fragment BookData on Book {
     language
     pages
     title
+    isDeleted
     author {
         ...UserFullData
     }

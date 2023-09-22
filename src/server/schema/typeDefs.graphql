@@ -54,6 +54,8 @@ type Book {
   description: String
   """Book ID"""
   id: ObjectID!
+  """isDeleted"""
+  isDeleted: Boolean!
   """Book language"""
   language: String
   """Pages count"""
@@ -110,6 +112,8 @@ type Mutation {
   completeWebPublicKeyCredentialRegistration(response: JSONObject!, token: String!): Boolean!
   """Create a new account/user"""
   createAccount(email: String!, password: String!, username: String!): User!
+  """Delete book"""
+  deleteBook(id: ObjectID!): Book!
   """Disable 2FA / Authenticator for the signed user"""
   disableAuthenticator: User!
   """Enable 2FA / Authenticator for the signed user"""
