@@ -84,6 +84,19 @@ export type Book = {
   title: Scalars['String'];
 };
 
+export type BookCreateInput = {
+  /** Author of the book */
+  authorId: Scalars['String'];
+  /** Description */
+  description: Scalars['String'];
+  /** Language of the book */
+  language: Scalars['String'];
+  /** Total count of pages */
+  pages: Scalars['Int'];
+  /** Name of the book */
+  title: Scalars['String'];
+};
+
 export type BookFilteringRule = {
   /** Filter by book author */
   author?: InputMaybe<Scalars['String']>;
@@ -130,6 +143,8 @@ export type Mutation = {
   completeWebPublicKeyCredentialRegistration: Scalars['Boolean'];
   /** Create a new account/user */
   createAccount: User;
+  /** Create a book */
+  createBook: Book;
   /** Delete book */
   deleteBook: Book;
   /** Disable 2FA / Authenticator for the signed user */
@@ -213,6 +228,11 @@ export type MutationCreateAccountArgs = {
 };
 
 
+export type MutationCreateBookArgs = {
+  data: BookCreateInput;
+};
+
+
 export type MutationDeleteBookArgs = {
   id: Scalars['ObjectID'];
 };
@@ -273,6 +293,8 @@ export type Pagination = {
 
 export type Query = {
   __typename?: 'Query';
+  /** Fetch all user options */
+  allUserOptions: Array<User>;
   /** Fetch user document for the logged in user, returns null otherwise for anonymous */
   currentUser?: Maybe<User>;
   /** Generate challenge to authenticate with WebAuthn */
@@ -461,6 +483,13 @@ export type DeleteBookMutationVariables = Exact<{
 
 export type DeleteBookMutation = { __typename?: 'Mutation', deleteBook: { __typename?: 'Book', authorId: string, description?: string | null, id: string, language?: string | null, pages?: number | null, title: string, isDeleted: boolean, author: { __typename?: 'User', id: string, username: string, displayName: string, isAuthenticatorEnabled: boolean, isPasswordExpired: boolean } } };
 
+export type CreateBookMutationVariables = Exact<{
+  data: BookCreateInput;
+}>;
+
+
+export type CreateBookMutation = { __typename?: 'Mutation', createBook: { __typename?: 'Book', authorId: string, description?: string | null, id: string, language?: string | null, pages?: number | null, title: string, isDeleted: boolean, author: { __typename?: 'User', id: string, username: string, displayName: string, isAuthenticatorEnabled: boolean, isPasswordExpired: boolean } } };
+
 export type RetrieveLinkQueryVariables = Exact<{
   id: Scalars['String'];
 }>;
@@ -569,6 +598,11 @@ export type ListUsersQueryVariables = Exact<{
 
 
 export type ListUsersQuery = { __typename?: 'Query', list: { __typename?: 'PaginatedUsers', count: number, items: Array<{ __typename?: 'User', id: string, displayName: string, email: string, isAuthenticatorEnabled: boolean, isPasswordExpired: boolean }> } };
+
+export type AllUserOptionsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type AllUserOptionsQuery = { __typename?: 'Query', allUserOptions: Array<{ __typename?: 'User', displayName: string, id: string, username: string }> };
 
 export type GenerateAuthenticatorSetupQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -735,6 +769,33 @@ export function useDeleteBookMutation(baseOptions?: Apollo.MutationHookOptions<D
 export type DeleteBookMutationHookResult = ReturnType<typeof useDeleteBookMutation>;
 export type DeleteBookMutationResult = Apollo.MutationResult<DeleteBookMutation>;
 export type DeleteBookMutationOptions = Apollo.BaseMutationOptions<DeleteBookMutation, DeleteBookMutationVariables>;
+export const CreateBookDocument = /*#__PURE__*/ {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"createBook"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"data"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"BookCreateInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"createBook"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"data"},"value":{"kind":"Variable","name":{"kind":"Name","value":"data"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"BookData"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"BookData"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Book"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"authorId"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"language"}},{"kind":"Field","name":{"kind":"Name","value":"pages"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"isDeleted"}},{"kind":"Field","name":{"kind":"Name","value":"author"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"UserFullData"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"UserFullData"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"User"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"username"}},{"kind":"Field","name":{"kind":"Name","value":"displayName"}},{"kind":"Field","name":{"kind":"Name","value":"isAuthenticatorEnabled"}},{"kind":"Field","name":{"kind":"Name","value":"isPasswordExpired"}}]}}]} as unknown as DocumentNode;
+export type CreateBookMutationFn = Apollo.MutationFunction<CreateBookMutation, CreateBookMutationVariables>;
+
+/**
+ * __useCreateBookMutation__
+ *
+ * To run a mutation, you first call `useCreateBookMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateBookMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createBookMutation, { data, loading, error }] = useCreateBookMutation({
+ *   variables: {
+ *      data: // value for 'data'
+ *   },
+ * });
+ */
+export function useCreateBookMutation(baseOptions?: Apollo.MutationHookOptions<CreateBookMutation, CreateBookMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CreateBookMutation, CreateBookMutationVariables>(CreateBookDocument, options);
+      }
+export type CreateBookMutationHookResult = ReturnType<typeof useCreateBookMutation>;
+export type CreateBookMutationResult = Apollo.MutationResult<CreateBookMutation>;
+export type CreateBookMutationOptions = Apollo.BaseMutationOptions<CreateBookMutation, CreateBookMutationVariables>;
 export const RetrieveLinkDocument = /*#__PURE__*/ {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"retrieveLink"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"retrieveLink"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"__typename"}},{"kind":"InlineFragment","typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"ResetPasswordLink"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"token"}}]}}]}}]}}]} as unknown as DocumentNode;
 
 /**
@@ -1122,6 +1183,34 @@ export function useListUsersLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<
 export type ListUsersQueryHookResult = ReturnType<typeof useListUsersQuery>;
 export type ListUsersLazyQueryHookResult = ReturnType<typeof useListUsersLazyQuery>;
 export type ListUsersQueryResult = Apollo.QueryResult<ListUsersQuery, ListUsersQueryVariables>;
+export const AllUserOptionsDocument = /*#__PURE__*/ {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"allUserOptions"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"allUserOptions"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"displayName"}},{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"username"}}]}}]}}]} as unknown as DocumentNode;
+
+/**
+ * __useAllUserOptionsQuery__
+ *
+ * To run a query within a React component, call `useAllUserOptionsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useAllUserOptionsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useAllUserOptionsQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useAllUserOptionsQuery(baseOptions?: Apollo.QueryHookOptions<AllUserOptionsQuery, AllUserOptionsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<AllUserOptionsQuery, AllUserOptionsQueryVariables>(AllUserOptionsDocument, options);
+      }
+export function useAllUserOptionsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<AllUserOptionsQuery, AllUserOptionsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<AllUserOptionsQuery, AllUserOptionsQueryVariables>(AllUserOptionsDocument, options);
+        }
+export type AllUserOptionsQueryHookResult = ReturnType<typeof useAllUserOptionsQuery>;
+export type AllUserOptionsLazyQueryHookResult = ReturnType<typeof useAllUserOptionsLazyQuery>;
+export type AllUserOptionsQueryResult = Apollo.QueryResult<AllUserOptionsQuery, AllUserOptionsQueryVariables>;
 export const GenerateAuthenticatorSetupDocument = /*#__PURE__*/ {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"generateAuthenticatorSetup"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","alias":{"kind":"Name","value":"response"},"name":{"kind":"Name","value":"generateAuthenticatorSetup"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"secret"}},{"kind":"Field","name":{"kind":"Name","value":"qrcodeUri"}}]}}]}}]} as unknown as DocumentNode;
 
 /**

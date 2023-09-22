@@ -30,13 +30,17 @@
         "pageCount": {
             "placeholder": "Enter page count",
             "label": "Page count"
-        }
+        },
+        "authorLabel": "Author"
     },
     "actions": {
         "update": "Update",
-        "delete": "Delete"
+        "delete": "Delete",
+        "create": "Create"
     },
     "messages": {
+        "createSubmitting": "Creating bank..",
+        "createSuccessful": "Bank created",
         "updateSubmitting": "Updating book..",
         "updateSuccessful": "Book updated",
         "deleteSubmitting": "Requesting book deletion..",

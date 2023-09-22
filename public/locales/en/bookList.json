@@ -9,7 +9,7 @@
         "actions": "Actions"
     },
     "actions": {
-        "newUser": "New user",
+        "newBook": "New book",
         "view": "View",
         "update": "Update"
     }

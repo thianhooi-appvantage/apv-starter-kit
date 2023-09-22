@@ -87,6 +87,19 @@ export type GraphQLBook = {
   title: Scalars['String'];
 };
 
+export type GraphQLBookCreateInput = {
+  /** Author of the book */
+  authorId: Scalars['String'];
+  /** Description */
+  description: Scalars['String'];
+  /** Language of the book */
+  language: Scalars['String'];
+  /** Total count of pages */
+  pages: Scalars['Int'];
+  /** Name of the book */
+  title: Scalars['String'];
+};
+
 export type GraphQLBookFilteringRule = {
   /** Filter by book author */
   author?: InputMaybe<Scalars['String']>;
@@ -131,6 +144,8 @@ export type GraphQLMutation = {
   completeWebPublicKeyCredentialRegistration: Scalars['Boolean'];
   /** Create a new account/user */
   createAccount: GraphQLUser;
+  /** Create a book */
+  createBook: GraphQLBook;
   /** Delete book */
   deleteBook: GraphQLBook;
   /** Disable 2FA / Authenticator for the signed user */
@@ -214,6 +229,11 @@ export type GraphQLMutationCreateAccountArgs = {
 };
 
 
+export type GraphQLMutationCreateBookArgs = {
+  data: GraphQLBookCreateInput;
+};
+
+
 export type GraphQLMutationDeleteBookArgs = {
   id: Scalars['ObjectID'];
 };
@@ -271,6 +291,8 @@ export type GraphQLPagination = {
 };
 
 export type GraphQLQuery = {
+  /** Fetch all user options */
+  allUserOptions: Array<GraphQLUser>;
   /** Fetch user document for the logged in user, returns null otherwise for anonymous */
   currentUser?: Maybe<GraphQLUser>;
   /** Generate challenge to authenticate with WebAuthn */
@@ -486,6 +508,7 @@ export type GraphQLResolversTypes = {
   AuthenticationWithWebPublicKeyCredential: ResolverTypeWrapper<GraphQLAuthenticationWithWebPublicKeyCredential>;
   AuthenticatorSetup: ResolverTypeWrapper<GraphQLAuthenticatorSetup>;
   Book: ResolverTypeWrapper<Book>;
+  BookCreateInput: GraphQLBookCreateInput;
   BookFilteringRule: GraphQLBookFilteringRule;
   BookUpdateInput: GraphQLBookUpdateInput;
   Boolean: ResolverTypeWrapper<Scalars['Boolean']>;
@@ -525,6 +548,7 @@ export type GraphQLResolversParentTypes = {
   AuthenticationWithWebPublicKeyCredential: GraphQLAuthenticationWithWebPublicKeyCredential;
   AuthenticatorSetup: GraphQLAuthenticatorSetup;
   Book: Book;
+  BookCreateInput: GraphQLBookCreateInput;
   BookFilteringRule: GraphQLBookFilteringRule;
   BookUpdateInput: GraphQLBookUpdateInput;
   Boolean: Scalars['Boolean'];
@@ -627,6 +651,7 @@ export type GraphQLMutationResolvers<ContextType = Context, ParentType extends G
   changePasswordFromToken?: Resolver<GraphQLResolversTypes['Boolean'], ParentType, ContextType, RequireFields<GraphQLMutationChangePasswordFromTokenArgs, 'token'>>;
   completeWebPublicKeyCredentialRegistration?: Resolver<GraphQLResolversTypes['Boolean'], ParentType, ContextType, RequireFields<GraphQLMutationCompleteWebPublicKeyCredentialRegistrationArgs, 'response' | 'token'>>;
   createAccount?: Resolver<GraphQLResolversTypes['User'], ParentType, ContextType, RequireFields<GraphQLMutationCreateAccountArgs, 'email' | 'password' | 'username'>>;
+  createBook?: Resolver<GraphQLResolversTypes['Book'], ParentType, ContextType, RequireFields<GraphQLMutationCreateBookArgs, 'data'>>;
   deleteBook?: Resolver<GraphQLResolversTypes['Book'], ParentType, ContextType, RequireFields<GraphQLMutationDeleteBookArgs, 'id'>>;
   disableAuthenticator?: Resolver<GraphQLResolversTypes['User'], ParentType, ContextType>;
   enableAuthenticator?: Resolver<GraphQLResolversTypes['User'], ParentType, ContextType, RequireFields<GraphQLMutationEnableAuthenticatorArgs, 'secret' | 'token'>>;
@@ -656,6 +681,7 @@ export type GraphQLPaginatedUsersResolvers<ContextType = Context, ParentType ext
 };
 
 export type GraphQLQueryResolvers<ContextType = Context, ParentType extends GraphQLResolversParentTypes['Query'] = GraphQLResolversParentTypes['Query']> = {
+  allUserOptions?: Resolver<Array<GraphQLResolversTypes['User']>, ParentType, ContextType>;
   currentUser?: Resolver<Maybe<GraphQLResolversTypes['User']>, ParentType, ContextType>;
   generateAuthenticatorChallenge?: Resolver<Maybe<GraphQLResolversTypes['AuthenticationWithWebPublicKeyCredential']>, ParentType, ContextType, RequireFields<GraphQLQueryGenerateAuthenticatorChallengeArgs, 'username'>>;
   generateAuthenticatorSetup?: Resolver<GraphQLResolversTypes['AuthenticatorSetup'], ParentType, ContextType>;

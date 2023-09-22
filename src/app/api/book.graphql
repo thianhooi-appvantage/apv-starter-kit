@@ -24,3 +24,9 @@ mutation deleteBook($id: ObjectID!) {
         ...BookData
     }
 }
+
+mutation createBook($data: BookCreateInput!) {
+    createBook(data: $data) {
+        ...BookData
+    }
+}

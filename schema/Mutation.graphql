@@ -94,4 +94,9 @@ type Mutation {
     Delete book
     """
     deleteBook(id: ObjectID!): Book!
+
+    """
+    Create a book
+    """
+    createBook(data: BookCreateInput!): Book!
 }
