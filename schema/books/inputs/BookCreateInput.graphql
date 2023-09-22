@@ -1,0 +1,26 @@
+input BookCreateInput {
+    """
+    Name of the book
+    """
+    title: String!
+
+    """
+    Description
+    """
+    description: String!
+
+    """
+    Language of the book
+    """
+    language: String!
+
+    """
+    Total count of pages
+    """
+    pages: Int!
+
+    """
+    Author of the book
+    """
+    authorId: String!
+}

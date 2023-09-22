@@ -5,6 +5,11 @@ type Query {
     currentUser: User
 
     """
+    Fetch all user options
+    """
+    allUserOptions: [User!]!
+
+    """
     List users
     """
     listUsers(pagination: Pagination!, filter: UserFilteringRule, sort: UserSortingRule): PaginatedUsers!
@@ -28,4 +33,14 @@ type Query {
     Generate challenge to authenticate with WebAuthn
     """
     generateAuthenticatorChallenge(username: String!): AuthenticationWithWebPublicKeyCredential
+
+    """
+    get a book by id
+    """
+    getBookById(id: ObjectID!): Book
+
+    """
+    list books
+    """
+    listBooks(pagination: Pagination!, filter: BookFilteringRule): PaginatedBooks!
 }

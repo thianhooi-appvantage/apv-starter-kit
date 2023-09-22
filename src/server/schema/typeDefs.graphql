@@ -45,6 +45,58 @@ type AuthenticatorSetup {
   secret: String!
 }
 
+type Book {
+  """Author"""
+  author: User!
+  """Author ID"""
+  authorId: ObjectID!
+  """The description of the book"""
+  description: String
+  """Book ID"""
+  id: ObjectID!
+  """isDeleted"""
+  isDeleted: Boolean!
+  """Book language"""
+  language: String
+  """Pages count"""
+  pages: Int
+  """The title of the book"""
+  title: String!
+}
+
+input BookCreateInput {
+  """Author of the book"""
+  authorId: String!
+  """Description"""
+  description: String!
+  """Language of the book"""
+  language: String!
+  """Total count of pages"""
+  pages: Int!
+  """Name of the book"""
+  title: String!
+}
+
+input BookFilteringRule {
+  """Filter by book author"""
+  author: String
+  """Filter by book language"""
+  language: String
+  """Filter by book title"""
+  title: String
+}
+
+input BookUpdateInput {
+  """Description"""
+  description: String
+  """Language"""
+  language: String
+  """Page count"""
+  pages: Int
+  """Book title"""
+  title: String
+}
+
 scalar DateTime
 
 union ExternalLink = ResetPasswordLink
@@ -73,6 +125,10 @@ type Mutation {
   completeWebPublicKeyCredentialRegistration(response: JSONObject!, token: String!): Boolean!
   """Create a new account/user"""
   createAccount(email: String!, password: String!, username: String!): User!
+  """Create a book"""
+  createBook(data: BookCreateInput!): Book!
+  """Delete book"""
+  deleteBook(id: ObjectID!): Book!
   """Disable 2FA / Authenticator for the signed user"""
   disableAuthenticator: User!
   """Enable 2FA / Authenticator for the signed user"""
@@ -95,6 +151,8 @@ type Mutation {
   Return the key ID revoked
   """
   revokeWebPublicKeyCredential(id: ObjectID!): String
+  """Update book"""
+  updateBook(data: BookUpdateInput!, id: ObjectID!): Book!
   """
   Update the display name for the logged in user
   
@@ -104,6 +162,11 @@ type Mutation {
 }
 
 scalar ObjectID
+
+type PaginatedBooks {
+  count: Int!
+  items: [Book!]!
+}
 
 type PaginatedUsers {
   """Number of user matching the original query"""
@@ -120,6 +183,8 @@ input Pagination {
 }
 
 type Query {
+  """Fetch all user options"""
+  allUserOptions: [User!]!
   """
   Fetch user document for the logged in user, returns null otherwise for anonymous
   """
@@ -128,8 +193,12 @@ type Query {
   generateAuthenticatorChallenge(username: String!): AuthenticationWithWebPublicKeyCredential
   """Generate authenticator secret and qrcode"""
   generateAuthenticatorSetup: AuthenticatorSetup!
+  """get a book by id"""
+  getBookById(id: ObjectID!): Book
   """Fetch WebAuthn security keys for a username"""
   getWebauthnKeys(username: String!): [String!]!
+  """list books"""
+  listBooks(filter: BookFilteringRule, pagination: Pagination!): PaginatedBooks!
   """List users"""
   listUsers(filter: UserFilteringRule, pagination: Pagination!, sort: UserSortingRule): PaginatedUsers!
   """Retrieve a link information"""

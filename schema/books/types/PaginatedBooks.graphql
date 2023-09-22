@@ -1,0 +1,4 @@
+type PaginatedBooks {
+    items: [Book!]!
+    count: Int!
+}

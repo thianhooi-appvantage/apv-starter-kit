@@ -26,6 +26,11 @@ const useConsoleMenu = () => {
                             path: '/private/system/users',
                             key: 'users',
                         },
+                        {
+                            name: t('consoleLayout:menuItems.books'),
+                            path: '/private/system/books',
+                            key: 'books',
+                        },
                     ],
                 },
             ],

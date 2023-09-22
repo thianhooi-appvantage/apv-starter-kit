@@ -27,6 +27,7 @@ generates:
         AuthenticationResponse: ./typings#AuthenticationResponse
         ExternalLink: ../../database#ExternalLink
         ResetPasswordLink: ../../database#ResetPasswordLink
+        Book: ../../database#Book
       enumValues: ./enums
       scalars:
         DateTime: Date

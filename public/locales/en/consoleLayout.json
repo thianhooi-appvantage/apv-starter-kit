@@ -2,7 +2,8 @@
   "menuItems": {
     "overview": "Overview",
     "users": "Users",
-    "system": "System"
+    "system": "System",
+    "books": "Books"
   },
   "avatarMenuItems": {
     "logout": "Logout",

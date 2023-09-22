@@ -1,0 +1,55 @@
+{
+    "title": "Book details",
+    "cardTitles": {
+        "configuration": "Configuration"
+    },
+    "content": {
+        "title": "Title",
+        "author": "Author",
+        "description": "Description",
+        "language": "Language",
+        "pageCount": "Page count"
+    },
+    "fields": {
+        "title": {
+            "placeholder": "Enter title",
+            "label": "Title"
+        },
+        "author": {
+            "placeholder": "Enter author",
+            "label": "Author"
+        },
+        "description": {
+            "placeholder": "Enter description",
+            "label": "Description"
+        },
+        "language": {
+            "placeholder": "Enter language",
+            "label": "Language"
+        },
+        "pageCount": {
+            "placeholder": "Enter page count",
+            "label": "Page count"
+        },
+        "authorLabel": "Author"
+    },
+    "actions": {
+        "update": "Update",
+        "delete": "Delete",
+        "create": "Create"
+    },
+    "messages": {
+        "createSubmitting": "Creating bank..",
+        "createSuccessful": "Bank created",
+        "updateSubmitting": "Updating book..",
+        "updateSuccessful": "Book updated",
+        "deleteSubmitting": "Requesting book deletion..",
+        "deleteSuccessful": "Book deleted"
+    },
+    "deleteModal": {
+        "title": "Deletion",
+        "content": "Do you confirm the deletion for this book? This action cannot be reverted.",
+        "okText": "Confirm & Delete",
+        "cancelText": "Cancel"
+    }
+}

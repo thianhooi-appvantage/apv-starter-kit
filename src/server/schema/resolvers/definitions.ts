@@ -4,7 +4,7 @@ import { UserSortingField } from './enums';
 import { ObjectId } from 'mongodb';
 import { FileUploadPromise } from '../context';
 import { GraphQLResolveInfo, GraphQLScalarType, GraphQLScalarTypeConfig } from 'graphql';
-import { User, UserSession, ExternalLink, ResetPasswordLink } from '../../database';
+import { User, UserSession, ExternalLink, ResetPasswordLink, Book } from '../../database';
 import { SystemMessage } from '../../utils/systemMessage';
 import { AuthenticationResponse } from './typings';
 import { Context, RootDocument } from '../context';
@@ -68,6 +68,58 @@ export type GraphQLAuthenticatorSetup = {
   secret: Scalars['String'];
 };
 
+export type GraphQLBook = {
+  /** Author */
+  author: GraphQLUser;
+  /** Author ID */
+  authorId: Scalars['ObjectID'];
+  /** The description of the book */
+  description?: Maybe<Scalars['String']>;
+  /** Book ID */
+  id: Scalars['ObjectID'];
+  /** isDeleted */
+  isDeleted: Scalars['Boolean'];
+  /** Book language */
+  language?: Maybe<Scalars['String']>;
+  /** Pages count */
+  pages?: Maybe<Scalars['Int']>;
+  /** The title of the book */
+  title: Scalars['String'];
+};
+
+export type GraphQLBookCreateInput = {
+  /** Author of the book */
+  authorId: Scalars['String'];
+  /** Description */
+  description: Scalars['String'];
+  /** Language of the book */
+  language: Scalars['String'];
+  /** Total count of pages */
+  pages: Scalars['Int'];
+  /** Name of the book */
+  title: Scalars['String'];
+};
+
+export type GraphQLBookFilteringRule = {
+  /** Filter by book author */
+  author?: InputMaybe<Scalars['String']>;
+  /** Filter by book language */
+  language?: InputMaybe<Scalars['String']>;
+  /** Filter by book title */
+  title?: InputMaybe<Scalars['String']>;
+};
+
+export type GraphQLBookUpdateInput = {
+  /** Description */
+  description?: InputMaybe<Scalars['String']>;
+  /** Language */
+  language?: InputMaybe<Scalars['String']>;
+  /** Page count */
+  pages?: InputMaybe<Scalars['Int']>;
+  /** Book title */
+  title?: InputMaybe<Scalars['String']>;
+};
+
 export type GraphQLExternalLink = GraphQLResetPasswordLink;
 
 export type GraphQLMessageNotice = {
@@ -92,6 +144,10 @@ export type GraphQLMutation = {
   completeWebPublicKeyCredentialRegistration: Scalars['Boolean'];
   /** Create a new account/user */
   createAccount: GraphQLUser;
+  /** Create a book */
+  createBook: GraphQLBook;
+  /** Delete book */
+  deleteBook: GraphQLBook;
   /** Disable 2FA / Authenticator for the signed user */
   disableAuthenticator: GraphQLUser;
   /** Enable 2FA / Authenticator for the signed user */
@@ -114,6 +170,8 @@ export type GraphQLMutation = {
    * Return the key ID revoked
    */
   revokeWebPublicKeyCredential?: Maybe<Scalars['String']>;
+  /** Update book */
+  updateBook: GraphQLBook;
   /**
    * Update the display name for the logged in user
    *
@@ -171,6 +229,16 @@ export type GraphQLMutationCreateAccountArgs = {
 };
 
 
+export type GraphQLMutationCreateBookArgs = {
+  data: GraphQLBookCreateInput;
+};
+
+
+export type GraphQLMutationDeleteBookArgs = {
+  id: Scalars['ObjectID'];
+};
+
+
 export type GraphQLMutationEnableAuthenticatorArgs = {
   secret: Scalars['String'];
   token: Scalars['String'];
@@ -193,8 +261,19 @@ export type GraphQLMutationRevokeWebPublicKeyCredentialArgs = {
 };
 
 
+export type GraphQLMutationUpdateBookArgs = {
+  data: GraphQLBookUpdateInput;
+  id: Scalars['ObjectID'];
+};
+
+
 export type GraphQLMutationUpdateDisplayNameArgs = {
   displayName: Scalars['String'];
+};
+
+export type GraphQLPaginatedBooks = {
+  count: Scalars['Int'];
+  items: Array<GraphQLBook>;
 };
 
 export type GraphQLPaginatedUsers = {
@@ -212,14 +291,20 @@ export type GraphQLPagination = {
 };
 
 export type GraphQLQuery = {
+  /** Fetch all user options */
+  allUserOptions: Array<GraphQLUser>;
   /** Fetch user document for the logged in user, returns null otherwise for anonymous */
   currentUser?: Maybe<GraphQLUser>;
   /** Generate challenge to authenticate with WebAuthn */
   generateAuthenticatorChallenge?: Maybe<GraphQLAuthenticationWithWebPublicKeyCredential>;
   /** Generate authenticator secret and qrcode */
   generateAuthenticatorSetup: GraphQLAuthenticatorSetup;
+  /** get a book by id */
+  getBookById?: Maybe<GraphQLBook>;
   /** Fetch WebAuthn security keys for a username */
   getWebauthnKeys: Array<Scalars['String']>;
+  /** list books */
+  listBooks: GraphQLPaginatedBooks;
   /** List users */
   listUsers: GraphQLPaginatedUsers;
   /** Retrieve a link information */
@@ -232,8 +317,19 @@ export type GraphQLQueryGenerateAuthenticatorChallengeArgs = {
 };
 
 
+export type GraphQLQueryGetBookByIdArgs = {
+  id: Scalars['ObjectID'];
+};
+
+
 export type GraphQLQueryGetWebauthnKeysArgs = {
   username: Scalars['String'];
+};
+
+
+export type GraphQLQueryListBooksArgs = {
+  filter?: InputMaybe<GraphQLBookFilteringRule>;
+  pagination: GraphQLPagination;
 };
 
 
@@ -411,6 +507,10 @@ export type GraphQLResolversTypes = {
   AuthenticationSuccessful: ResolverTypeWrapper<Omit<GraphQLAuthenticationSuccessful, 'user'> & { user: GraphQLResolversTypes['User'] }>;
   AuthenticationWithWebPublicKeyCredential: ResolverTypeWrapper<GraphQLAuthenticationWithWebPublicKeyCredential>;
   AuthenticatorSetup: ResolverTypeWrapper<GraphQLAuthenticatorSetup>;
+  Book: ResolverTypeWrapper<Book>;
+  BookCreateInput: GraphQLBookCreateInput;
+  BookFilteringRule: GraphQLBookFilteringRule;
+  BookUpdateInput: GraphQLBookUpdateInput;
   Boolean: ResolverTypeWrapper<Scalars['Boolean']>;
   DateTime: ResolverTypeWrapper<Scalars['DateTime']>;
   ExternalLink: ResolverTypeWrapper<ExternalLink>;
@@ -419,6 +519,7 @@ export type GraphQLResolversTypes = {
   MessageNotice: ResolverTypeWrapper<GraphQLMessageNotice>;
   Mutation: ResolverTypeWrapper<RootDocument>;
   ObjectID: ResolverTypeWrapper<Scalars['ObjectID']>;
+  PaginatedBooks: ResolverTypeWrapper<Omit<GraphQLPaginatedBooks, 'items'> & { items: Array<GraphQLResolversTypes['Book']> }>;
   PaginatedUsers: ResolverTypeWrapper<Omit<GraphQLPaginatedUsers, 'items'> & { items: Array<GraphQLResolversTypes['User']> }>;
   Pagination: GraphQLPagination;
   Query: ResolverTypeWrapper<RootDocument>;
@@ -446,6 +547,10 @@ export type GraphQLResolversParentTypes = {
   AuthenticationSuccessful: Omit<GraphQLAuthenticationSuccessful, 'user'> & { user: GraphQLResolversParentTypes['User'] };
   AuthenticationWithWebPublicKeyCredential: GraphQLAuthenticationWithWebPublicKeyCredential;
   AuthenticatorSetup: GraphQLAuthenticatorSetup;
+  Book: Book;
+  BookCreateInput: GraphQLBookCreateInput;
+  BookFilteringRule: GraphQLBookFilteringRule;
+  BookUpdateInput: GraphQLBookUpdateInput;
   Boolean: Scalars['Boolean'];
   DateTime: Scalars['DateTime'];
   ExternalLink: ExternalLink;
@@ -454,6 +559,7 @@ export type GraphQLResolversParentTypes = {
   MessageNotice: GraphQLMessageNotice;
   Mutation: RootDocument;
   ObjectID: Scalars['ObjectID'];
+  PaginatedBooks: Omit<GraphQLPaginatedBooks, 'items'> & { items: Array<GraphQLResolversParentTypes['Book']> };
   PaginatedUsers: Omit<GraphQLPaginatedUsers, 'items'> & { items: Array<GraphQLResolversParentTypes['User']> };
   Pagination: GraphQLPagination;
   Query: RootDocument;
@@ -506,6 +612,18 @@ export type GraphQLAuthenticatorSetupResolvers<ContextType = Context, ParentType
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
+export type GraphQLBookResolvers<ContextType = Context, ParentType extends GraphQLResolversParentTypes['Book'] = GraphQLResolversParentTypes['Book']> = {
+  author?: Resolver<GraphQLResolversTypes['User'], ParentType, ContextType>;
+  authorId?: Resolver<GraphQLResolversTypes['ObjectID'], ParentType, ContextType>;
+  description?: Resolver<Maybe<GraphQLResolversTypes['String']>, ParentType, ContextType>;
+  id?: Resolver<GraphQLResolversTypes['ObjectID'], ParentType, ContextType>;
+  isDeleted?: Resolver<GraphQLResolversTypes['Boolean'], ParentType, ContextType>;
+  language?: Resolver<Maybe<GraphQLResolversTypes['String']>, ParentType, ContextType>;
+  pages?: Resolver<Maybe<GraphQLResolversTypes['Int']>, ParentType, ContextType>;
+  title?: Resolver<GraphQLResolversTypes['String'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
 export interface GraphQLDateTimeScalarConfig extends GraphQLScalarTypeConfig<GraphQLResolversTypes['DateTime'], any> {
   name: 'DateTime';
 }
@@ -533,6 +651,8 @@ export type GraphQLMutationResolvers<ContextType = Context, ParentType extends G
   changePasswordFromToken?: Resolver<GraphQLResolversTypes['Boolean'], ParentType, ContextType, RequireFields<GraphQLMutationChangePasswordFromTokenArgs, 'token'>>;
   completeWebPublicKeyCredentialRegistration?: Resolver<GraphQLResolversTypes['Boolean'], ParentType, ContextType, RequireFields<GraphQLMutationCompleteWebPublicKeyCredentialRegistrationArgs, 'response' | 'token'>>;
   createAccount?: Resolver<GraphQLResolversTypes['User'], ParentType, ContextType, RequireFields<GraphQLMutationCreateAccountArgs, 'email' | 'password' | 'username'>>;
+  createBook?: Resolver<GraphQLResolversTypes['Book'], ParentType, ContextType, RequireFields<GraphQLMutationCreateBookArgs, 'data'>>;
+  deleteBook?: Resolver<GraphQLResolversTypes['Book'], ParentType, ContextType, RequireFields<GraphQLMutationDeleteBookArgs, 'id'>>;
   disableAuthenticator?: Resolver<GraphQLResolversTypes['User'], ParentType, ContextType>;
   enableAuthenticator?: Resolver<GraphQLResolversTypes['User'], ParentType, ContextType, RequireFields<GraphQLMutationEnableAuthenticatorArgs, 'secret' | 'token'>>;
   generateWebCredentialAuthentication?: Resolver<Maybe<GraphQLResolversTypes['AuthenticationWithWebPublicKeyCredential']>, ParentType, ContextType, RequireFields<GraphQLMutationGenerateWebCredentialAuthenticationArgs, 'username'>>;
@@ -540,12 +660,19 @@ export type GraphQLMutationResolvers<ContextType = Context, ParentType extends G
   requestWebPublicKeyCredentialRegistration?: Resolver<GraphQLResolversTypes['WebPublicKeyCredentialRegistrationRequest'], ParentType, ContextType>;
   revokeUserSession?: Resolver<GraphQLResolversTypes['Boolean'], ParentType, ContextType, RequireFields<GraphQLMutationRevokeUserSessionArgs, 'id'>>;
   revokeWebPublicKeyCredential?: Resolver<Maybe<GraphQLResolversTypes['String']>, ParentType, ContextType, RequireFields<GraphQLMutationRevokeWebPublicKeyCredentialArgs, 'id'>>;
+  updateBook?: Resolver<GraphQLResolversTypes['Book'], ParentType, ContextType, RequireFields<GraphQLMutationUpdateBookArgs, 'data' | 'id'>>;
   updateDisplayName?: Resolver<GraphQLResolversTypes['User'], ParentType, ContextType, RequireFields<GraphQLMutationUpdateDisplayNameArgs, 'displayName'>>;
 };
 
 export interface GraphQLObjectIdScalarConfig extends GraphQLScalarTypeConfig<GraphQLResolversTypes['ObjectID'], any> {
   name: 'ObjectID';
 }
+
+export type GraphQLPaginatedBooksResolvers<ContextType = Context, ParentType extends GraphQLResolversParentTypes['PaginatedBooks'] = GraphQLResolversParentTypes['PaginatedBooks']> = {
+  count?: Resolver<GraphQLResolversTypes['Int'], ParentType, ContextType>;
+  items?: Resolver<Array<GraphQLResolversTypes['Book']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
 
 export type GraphQLPaginatedUsersResolvers<ContextType = Context, ParentType extends GraphQLResolversParentTypes['PaginatedUsers'] = GraphQLResolversParentTypes['PaginatedUsers']> = {
   count?: Resolver<GraphQLResolversTypes['Int'], ParentType, ContextType>;
@@ -554,10 +681,13 @@ export type GraphQLPaginatedUsersResolvers<ContextType = Context, ParentType ext
 };
 
 export type GraphQLQueryResolvers<ContextType = Context, ParentType extends GraphQLResolversParentTypes['Query'] = GraphQLResolversParentTypes['Query']> = {
+  allUserOptions?: Resolver<Array<GraphQLResolversTypes['User']>, ParentType, ContextType>;
   currentUser?: Resolver<Maybe<GraphQLResolversTypes['User']>, ParentType, ContextType>;
   generateAuthenticatorChallenge?: Resolver<Maybe<GraphQLResolversTypes['AuthenticationWithWebPublicKeyCredential']>, ParentType, ContextType, RequireFields<GraphQLQueryGenerateAuthenticatorChallengeArgs, 'username'>>;
   generateAuthenticatorSetup?: Resolver<GraphQLResolversTypes['AuthenticatorSetup'], ParentType, ContextType>;
+  getBookById?: Resolver<Maybe<GraphQLResolversTypes['Book']>, ParentType, ContextType, RequireFields<GraphQLQueryGetBookByIdArgs, 'id'>>;
   getWebauthnKeys?: Resolver<Array<GraphQLResolversTypes['String']>, ParentType, ContextType, RequireFields<GraphQLQueryGetWebauthnKeysArgs, 'username'>>;
+  listBooks?: Resolver<GraphQLResolversTypes['PaginatedBooks'], ParentType, ContextType, RequireFields<GraphQLQueryListBooksArgs, 'pagination'>>;
   listUsers?: Resolver<GraphQLResolversTypes['PaginatedUsers'], ParentType, ContextType, RequireFields<GraphQLQueryListUsersArgs, 'pagination'>>;
   retrieveLink?: Resolver<Maybe<GraphQLResolversTypes['ExternalLink']>, ParentType, ContextType, RequireFields<GraphQLQueryRetrieveLinkArgs, 'id'>>;
 };
@@ -634,12 +764,14 @@ export type GraphQLResolvers<ContextType = Context> = {
   AuthenticationSuccessful?: GraphQLAuthenticationSuccessfulResolvers<ContextType>;
   AuthenticationWithWebPublicKeyCredential?: GraphQLAuthenticationWithWebPublicKeyCredentialResolvers<ContextType>;
   AuthenticatorSetup?: GraphQLAuthenticatorSetupResolvers<ContextType>;
+  Book?: GraphQLBookResolvers<ContextType>;
   DateTime?: GraphQLScalarType;
   ExternalLink?: GraphQLExternalLinkResolvers<ContextType>;
   JSONObject?: GraphQLScalarType;
   MessageNotice?: GraphQLMessageNoticeResolvers<ContextType>;
   Mutation?: GraphQLMutationResolvers<ContextType>;
   ObjectID?: GraphQLScalarType;
+  PaginatedBooks?: GraphQLPaginatedBooksResolvers<ContextType>;
   PaginatedUsers?: GraphQLPaginatedUsersResolvers<ContextType>;
   Query?: GraphQLQueryResolvers<ContextType>;
   ResetPasswordLink?: GraphQLResetPasswordLinkResolvers<ContextType>;

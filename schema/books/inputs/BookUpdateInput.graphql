@@ -1,0 +1,21 @@
+input BookUpdateInput {
+    """
+    Book title
+    """
+    title: String
+
+    """
+    Description
+    """
+    description: String
+
+    """
+    Language
+    """
+    language: String
+
+    """
+    Page count
+    """
+    pages: Int
+}

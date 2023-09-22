@@ -103,7 +103,7 @@ mutation refreshCredentials {
     refreshCredentials
 }
 
-mutation  applyForPasswordChange($username: String!) {
+mutation applyForPasswordChange($username: String!) {
     applyForPasswordChange(username: $username)
 }
 
@@ -117,6 +117,14 @@ query listUsers($pagination: Pagination!, $sort: UserSortingRule) {
         items {
             ...UserListData
         }
+    }
+}
+
+query allUserOptions {
+    allUserOptions {
+        displayName
+        id
+        username
     }
 }
 

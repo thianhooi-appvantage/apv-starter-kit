@@ -1,0 +1,32 @@
+query getBookById($id: ObjectID!) {
+    getBookById(id: $id) {
+        ...BookData
+    }
+}
+
+query listBooks($pagination: Pagination!, $filter: BookFilteringRule) {
+    list: listBooks(pagination: $pagination, filter: $filter) {
+        count
+        items {
+            ...BookData
+        }
+    }
+}
+
+mutation updateBook($data: BookUpdateInput!, $id: ObjectID!) {
+    updateBook(data: $data, id: $id) {
+        ...BookData
+    }
+}
+
+mutation deleteBook($id: ObjectID!) {
+    deleteBook(id: $id) {
+        ...BookData
+    }
+}
+
+mutation createBook($data: BookCreateInput!) {
+    createBook(data: $data) {
+        ...BookData
+    }
+}
