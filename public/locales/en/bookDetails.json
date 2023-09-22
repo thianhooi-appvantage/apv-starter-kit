@@ -1,0 +1,10 @@
+{
+    "title": "Book details",
+    "content": {
+        "title": "Title",
+        "author": "Author",
+        "description": "Description",
+        "language": "Language",
+        "pageCount": "Page count"
+    }
+}

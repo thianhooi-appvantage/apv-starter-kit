@@ -23,10 +23,8 @@ const BookList = () => {
     const dataSource = useMemo(() => (data?.list?.items || []).map(item => ({ ...item, key: item.id })), [data]);
     const total = data?.list?.count || 0;
 
-    if (!loading) {
-        if (error) {
-            return <InternalErrorResult />;
-        }
+    if (!loading && error) {
+        return <InternalErrorResult />;
     }
 
     return (
